@@ -1,3 +1,4 @@
 /.vscode
 /zapzapClone.zip
 **/target/**
+*/target/*

@@ -33,7 +33,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "chat")
-@NamedQuery(name = "Chat.findChatsByUserId", query = "SELECT DISTINCT c FROM Chat WHERE c.sender.id = :userId OR c.receiver.id = :userId ORDER BY c.createdAt DESC")
+
+@NamedQuery(name = "Chat.findChatsByUserId", query = "SELECT DISTINCT c FROM Chat c WHERE c.sender.id = :userId OR c.receiver.id = :userId ORDER BY c.createdAt DESC")
 @NamedQuery(name = "Chat.findChatByUsersId", query = "SELECT c FROM Chat c WHERE (c.sender.id = :senderId AND c.receiver.id = :receiverId) OR (c.sender.id = :receiverId AND c.receiver.id = :senderId)")
 public class Chat extends BaseAuditingEntity {
     @Id

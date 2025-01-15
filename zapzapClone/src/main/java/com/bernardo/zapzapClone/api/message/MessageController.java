@@ -11,6 +11,8 @@ import com.bernardo.zapzapClone.model.message.MessageResponse;
 import com.bernardo.zapzapClone.model.message.MessageService;
 import com.bernardo.zapzapClone.model.message.MessageState;
 
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -28,18 +30,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/message")
 @RequiredArgsConstructor
+@Tag(name = "Message")
 public class MessageController {
     private final MessageService messageService;
     
     
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postMethodName(@RequestBody MessageRequest entity) {
-        messageService.createMessage(entity);
+    public void postMethodName(@RequestBody MessageRequest entity,Authentication authentication) {
+        messageService.createMessage(entity, authentication);
     }
     @PostMapping(value = "/upload-media", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
     public void postMethodName(
+        @Parameter()
         @RequestParam("file") MultipartFile file,
         @RequestParam("chatId") String chatId,
         Authentication authentication

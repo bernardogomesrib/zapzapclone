@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bernardo.zapzapClone.model.chat.ChatResponse;
 import com.bernardo.zapzapClone.model.chat.ChatService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/chat")
 @RequiredArgsConstructor
+@Tag(name = "Chat")
 public class ChatContoller {
     private final ChatService chatService;
     @PostMapping

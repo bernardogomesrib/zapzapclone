@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.bernardo.zapzapClone.model.message.MessageType;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -22,5 +24,26 @@ public class FileGetter {
             log.warn("Error reading file: {}", path);
         }
         return new byte[0];
+    }
+
+    public static byte[] getNotificationIcon(MessageType messageType, String path){
+        if(messageType == MessageType.TEXT){
+            return new byte[0];
+        }
+        if (messageType == MessageType.IMAGE){
+            return getFile(path);
+            
+        }
+        if(messageType == MessageType.AUDIO){
+            return getFile("/public/icons/music_note.svg");
+        }
+        if(messageType == MessageType.VIDEO){
+            return getFile("/public/icons/video.svg");
+        }
+        if(messageType == MessageType.DOCUMENT){
+            return getFile("/public/icons/document.svg");
+        }
+
+        return getFile(path);
     }
 }
