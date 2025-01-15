@@ -32,6 +32,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Table(name = "messages")
 @NamedQuery(name = "Message.findByChatId", query = "SELECT m FROM Message m WHERE m.chat.id = :chatId ORDER BY m.createdAt ASC")
+@NamedQuery(name = "Message.findByChatIdAndUserId", query = "SELECT m FROM Message m WHERE m.chat.id = :chatId AND (m.senderId = :userId OR m.receiverId = :userId) ORDER BY m.createdAt ASC")
 @NamedQuery(name = "Message.setMessagesToSeenByChatId", query = "UPDATE Message m SET m.state = MessageState.SEEN WHERE m.chat.id = :chatId")
 @NamedQuery(name = "Message.setMessagesToReceivedByChatId", query = "UPDATE Message m SET m.state = MessageState.RECEIVED WHERE m.chat.id = :chatId")
 @NamedQuery(name = "Message.setMessageToStateByChatId", query = "UPDATE Message m SET m.state = :state WHERE m.chat.id = :chatId ")

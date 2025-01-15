@@ -8,12 +8,17 @@ import org.springframework.data.jpa.repository.Query;
 
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
+
+@Query(name = "Message.findByChatIdAndUserId")
+    List<Message> findByChatIdAndUserId(String chatId, String userId);
+
     @Query(name = "Message.findByChatId")
     List<Message> findMessagesByChatId(String chatId);
-    @Query(name="Message.setMessagesToSeenByChatId")
+
+    @Query(name = "Message.setMessagesToSeenByChatId")
     void setMessagesToSeenByChatId(String chatId);
 
-    @Query(name="Message.setMessageToStateByChatId")
+    @Query(name = "Message.setMessageToStateByChatId")
     @Modifying
     void setMessageToStateByChatId(String chatId, MessageState state);
-} 
+}

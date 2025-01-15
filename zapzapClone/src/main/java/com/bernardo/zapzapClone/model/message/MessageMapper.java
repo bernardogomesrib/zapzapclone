@@ -2,6 +2,8 @@ package com.bernardo.zapzapClone.model.message;
 
 import org.springframework.stereotype.Service;
 
+import com.bernardo.zapzapClone.file.FileGetter;
+
 @Service
 public class MessageMapper {
     public MessageResponse toMessageResponse(Message message) {
@@ -14,7 +16,7 @@ public class MessageMapper {
         .state(message.getState())
         .createdAt(message.getCreatedAt())
         .updatedAt(message.getUpdatedAt())
-        //TODO: ADD FILES
+        .file(FileGetter.getFile(message.getMediaFilePath()))
         .build();
     }
 }

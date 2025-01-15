@@ -22,5 +22,5 @@ public class MessageResponse {
     private Chat chat;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Byte[] file;
+    private byte[] file;
 }
