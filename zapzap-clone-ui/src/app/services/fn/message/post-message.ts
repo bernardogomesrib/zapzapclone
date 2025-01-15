@@ -8,19 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { MessageRequest } from '../../models/message-request';
 
-export interface PatchMethodName$Params {
-  'chat-id': string;
-  'message-id': string;
-  status: 'SENT' | 'RECEIVED' | 'SEEN';
+export interface PostMessage$Params {
+      body: MessageRequest
 }
 
-export function patchMethodName(http: HttpClient, rootUrl: string, params: PatchMethodName$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, patchMethodName.PATH, 'patch');
+export function postMessage(http: HttpClient, rootUrl: string, params: PostMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, postMessage.PATH, 'post');
   if (params) {
-    rb.query('chat-id', params['chat-id'], {});
-    rb.query('message-id', params['message-id'], {});
-    rb.query('status', params.status, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -33,4 +30,4 @@ export function patchMethodName(http: HttpClient, rootUrl: string, params: Patch
   );
 }
 
-patchMethodName.PATH = '/message';
+postMessage.PATH = '/message';

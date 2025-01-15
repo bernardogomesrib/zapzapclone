@@ -11,15 +11,15 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { getMethodName1 } from '../fn/message/get-method-name-1';
-import { GetMethodName1$Params } from '../fn/message/get-method-name-1';
+import { getMessagesByChat } from '../fn/message/get-messages-by-chat';
+import { GetMessagesByChat$Params } from '../fn/message/get-messages-by-chat';
 import { MessageResponse } from '../models/message-response';
-import { patchMethodName } from '../fn/message/patch-method-name';
-import { PatchMethodName$Params } from '../fn/message/patch-method-name';
-import { postMethodName } from '../fn/message/post-method-name';
-import { PostMethodName$Params } from '../fn/message/post-method-name';
-import { postMethodName1 } from '../fn/message/post-method-name-1';
-import { PostMethodName1$Params } from '../fn/message/post-method-name-1';
+import { patchStatusChange } from '../fn/message/patch-status-change';
+import { PatchStatusChange$Params } from '../fn/message/patch-status-change';
+import { postMessage } from '../fn/message/post-message';
+import { PostMessage$Params } from '../fn/message/post-message';
+import { postMessageWithFile } from '../fn/message/post-message-with-file';
+import { PostMessageWithFile$Params } from '../fn/message/post-message-with-file';
 
 @Injectable({ providedIn: 'root' })
 export class MessageService extends BaseService {
@@ -27,102 +27,102 @@ export class MessageService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `postMethodName()` */
-  static readonly PostMethodNamePath = '/message';
+  /** Path part for operation `postMessage()` */
+  static readonly PostMessagePath = '/message';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postMethodName()` instead.
+   * To access only the response body, use `postMessage()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postMethodName$Response(params: PostMethodName$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return postMethodName(this.http, this.rootUrl, params, context);
+  postMessage$Response(params: PostMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return postMessage(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `postMethodName$Response()` instead.
+   * To access the full response (for headers, for example), `postMessage$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postMethodName(params: PostMethodName$Params, context?: HttpContext): Observable<void> {
-    return this.postMethodName$Response(params, context).pipe(
+  postMessage(params: PostMessage$Params, context?: HttpContext): Observable<void> {
+    return this.postMessage$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `patchMethodName()` */
-  static readonly PatchMethodNamePath = '/message';
+  /** Path part for operation `patchStatusChange()` */
+  static readonly PatchStatusChangePath = '/message';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `patchMethodName()` instead.
+   * To access only the response body, use `patchStatusChange()` instead.
    *
    * This method doesn't expect any request body.
    */
-  patchMethodName$Response(params: PatchMethodName$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return patchMethodName(this.http, this.rootUrl, params, context);
+  patchStatusChange$Response(params: PatchStatusChange$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return patchStatusChange(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `patchMethodName$Response()` instead.
+   * To access the full response (for headers, for example), `patchStatusChange$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  patchMethodName(params: PatchMethodName$Params, context?: HttpContext): Observable<void> {
-    return this.patchMethodName$Response(params, context).pipe(
+  patchStatusChange(params: PatchStatusChange$Params, context?: HttpContext): Observable<void> {
+    return this.patchStatusChange$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `postMethodName1()` */
-  static readonly PostMethodName1Path = '/message/upload-media';
+  /** Path part for operation `postMessageWithFile()` */
+  static readonly PostMessageWithFilePath = '/message/upload-media';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `postMethodName1()` instead.
+   * To access only the response body, use `postMessageWithFile()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  postMethodName1$Response(params: PostMethodName1$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return postMethodName1(this.http, this.rootUrl, params, context);
+  postMessageWithFile$Response(params: PostMessageWithFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return postMessageWithFile(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `postMethodName1$Response()` instead.
+   * To access the full response (for headers, for example), `postMessageWithFile$Response()` instead.
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  postMethodName1(params: PostMethodName1$Params, context?: HttpContext): Observable<void> {
-    return this.postMethodName1$Response(params, context).pipe(
+  postMessageWithFile(params: PostMessageWithFile$Params, context?: HttpContext): Observable<void> {
+    return this.postMessageWithFile$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `getMethodName1()` */
-  static readonly GetMethodName1Path = '/message/{chatId}';
+  /** Path part for operation `getMessagesByChat()` */
+  static readonly GetMessagesByChatPath = '/message/{chatId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMethodName1()` instead.
+   * To access only the response body, use `getMessagesByChat()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName1$Response(params: GetMethodName1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<MessageResponse>>> {
-    return getMethodName1(this.http, this.rootUrl, params, context);
+  getMessagesByChat$Response(params: GetMessagesByChat$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<MessageResponse>>> {
+    return getMessagesByChat(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getMethodName1$Response()` instead.
+   * To access the full response (for headers, for example), `getMessagesByChat$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName1(params: GetMethodName1$Params, context?: HttpContext): Observable<Array<MessageResponse>> {
-    return this.getMethodName1$Response(params, context).pipe(
+  getMessagesByChat(params: GetMessagesByChat$Params, context?: HttpContext): Observable<Array<MessageResponse>> {
+    return this.getMessagesByChat$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<MessageResponse>>): Array<MessageResponse> => r.body)
     );
   }

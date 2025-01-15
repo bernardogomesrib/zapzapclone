@@ -8,14 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { UserResponse } from '../../models/user-response';
+import { MessageResponse } from '../../models/message-response';
 
-export interface GetMethodName$Params {
+export interface GetMessagesByChat$Params {
+  chatId: string;
 }
 
-export function getMethodName(http: HttpClient, rootUrl: string, params?: GetMethodName$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getMethodName.PATH, 'get');
+export function getMessagesByChat(http: HttpClient, rootUrl: string, params: GetMessagesByChat$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<MessageResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getMessagesByChat.PATH, 'get');
   if (params) {
+    rb.query('chatId', params.chatId, {});
   }
 
   return http.request(
@@ -23,9 +25,9 @@ export function getMethodName(http: HttpClient, rootUrl: string, params?: GetMet
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<UserResponse>>;
+      return r as StrictHttpResponse<Array<MessageResponse>>;
     })
   );
 }
 
-getMethodName.PATH = '/user';
+getMessagesByChat.PATH = '/message/{chatId}';

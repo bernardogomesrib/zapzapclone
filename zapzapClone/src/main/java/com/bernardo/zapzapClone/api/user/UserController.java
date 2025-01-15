@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getMethodName(Authentication authentication) {
+    public ResponseEntity<List<UserResponse>> getAllUsersButMe(Authentication authentication) {
         return ResponseEntity.ok().body(userService.getAllUsers(authentication));
     }
 

@@ -8,14 +8,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { ChatRequest } from '../../models/chat-request';
 import { ChatResponse } from '../../models/chat-response';
 
-export interface GetMethodName2$Params {
+export interface PostChat$Params {
+      body: ChatRequest
 }
 
-export function getMethodName2(http: HttpClient, rootUrl: string, params?: GetMethodName2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ChatResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getMethodName2.PATH, 'get');
+export function postChat(http: HttpClient, rootUrl: string, params: PostChat$Params, context?: HttpContext): Observable<StrictHttpResponse<ChatResponse>> {
+  const rb = new RequestBuilder(rootUrl, postChat.PATH, 'post');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -23,9 +26,9 @@ export function getMethodName2(http: HttpClient, rootUrl: string, params?: GetMe
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ChatResponse>>;
+      return r as StrictHttpResponse<ChatResponse>;
     })
   );
 }
 
-getMethodName2.PATH = '/chat';
+postChat.PATH = '/chat';

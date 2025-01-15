@@ -8,26 +8,29 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { MessageResponse } from '../../models/message-response';
 
-export interface GetMethodName1$Params {
+export interface PostMessageWithFile$Params {
   chatId: string;
+      body?: {
+'file': Blob;
+}
 }
 
-export function getMethodName1(http: HttpClient, rootUrl: string, params: GetMethodName1$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<MessageResponse>>> {
-  const rb = new RequestBuilder(rootUrl, getMethodName1.PATH, 'get');
+export function postMessageWithFile(http: HttpClient, rootUrl: string, params: PostMessageWithFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, postMessageWithFile.PATH, 'post');
   if (params) {
     rb.query('chatId', params.chatId, {});
+    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<MessageResponse>>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-getMethodName1.PATH = '/message/{chatId}';
+postMessageWithFile.PATH = '/message/upload-media';

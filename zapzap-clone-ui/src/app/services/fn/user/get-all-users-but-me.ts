@@ -8,17 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ChatRequest } from '../../models/chat-request';
-import { ChatResponse } from '../../models/chat-response';
+import { UserResponse } from '../../models/user-response';
 
-export interface Post$Params {
-      body: ChatRequest
+export interface GetAllUsersButMe$Params {
 }
 
-export function post(http: HttpClient, rootUrl: string, params: Post$Params, context?: HttpContext): Observable<StrictHttpResponse<ChatResponse>> {
-  const rb = new RequestBuilder(rootUrl, post.PATH, 'post');
+export function getAllUsersButMe(http: HttpClient, rootUrl: string, params?: GetAllUsersButMe$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
+  const rb = new RequestBuilder(rootUrl, getAllUsersButMe.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -26,9 +23,9 @@ export function post(http: HttpClient, rootUrl: string, params: Post$Params, con
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ChatResponse>;
+      return r as StrictHttpResponse<Array<UserResponse>>;
     })
   );
 }
 
-post.PATH = '/chat';
+getAllUsersButMe.PATH = '/user';

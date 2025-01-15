@@ -37,12 +37,12 @@ public class MessageController {
     
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postMethodName(@RequestBody MessageRequest entity,Authentication authentication) {
+    public void postMessage(@RequestBody MessageRequest entity,Authentication authentication) {
         messageService.createMessage(entity, authentication);
     }
     @PostMapping(value = "/upload-media", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public void postMethodName(
+    public void postMessageWithFile(
         @Parameter()
         @RequestParam("file") MultipartFile file,
         @RequestParam("chatId") String chatId,
@@ -52,9 +52,8 @@ public class MessageController {
     }
     @PatchMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void patchMethodName(
-        @RequestParam("chat-id") String chatId,
-        @RequestParam("message-id") String messageId,
+    public void patchStatusChange(
+        @RequestParam("chatId") String chatId,
         @RequestParam("status") MessageState status,
         Authentication authentication
         ) {
@@ -62,7 +61,7 @@ public class MessageController {
         messageService.updateMessageState(chatId, status, authentication);
     }
     @GetMapping("{chatId}")
-    public ResponseEntity<List<MessageResponse>> getMethodName(@RequestParam String chatId, Authentication authentication) {
+    public ResponseEntity<List<MessageResponse>> getMessagesByChat(@RequestParam String chatId, Authentication authentication) {
         return ResponseEntity.ok(messageService.getMessagesByChatId(chatId, authentication));
     }
     

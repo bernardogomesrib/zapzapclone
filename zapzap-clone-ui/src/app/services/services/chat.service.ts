@@ -12,10 +12,10 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { ChatResponse } from '../models/chat-response';
-import { getMethodName2 } from '../fn/chat/get-method-name-2';
-import { GetMethodName2$Params } from '../fn/chat/get-method-name-2';
-import { post } from '../fn/chat/post';
-import { Post$Params } from '../fn/chat/post';
+import { getAllChats } from '../fn/chat/get-all-chats';
+import { GetAllChats$Params } from '../fn/chat/get-all-chats';
+import { postChat } from '../fn/chat/post-chat';
+import { PostChat$Params } from '../fn/chat/post-chat';
 
 @Injectable({ providedIn: 'root' })
 export class ChatService extends BaseService {
@@ -23,52 +23,52 @@ export class ChatService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `getMethodName2()` */
-  static readonly GetMethodName2Path = '/chat';
+  /** Path part for operation `getAllChats()` */
+  static readonly GetAllChatsPath = '/chat';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMethodName2()` instead.
+   * To access only the response body, use `getAllChats()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName2$Response(params?: GetMethodName2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ChatResponse>>> {
-    return getMethodName2(this.http, this.rootUrl, params, context);
+  getAllChats$Response(params?: GetAllChats$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ChatResponse>>> {
+    return getAllChats(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getMethodName2$Response()` instead.
+   * To access the full response (for headers, for example), `getAllChats$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName2(params?: GetMethodName2$Params, context?: HttpContext): Observable<Array<ChatResponse>> {
-    return this.getMethodName2$Response(params, context).pipe(
+  getAllChats(params?: GetAllChats$Params, context?: HttpContext): Observable<Array<ChatResponse>> {
+    return this.getAllChats$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ChatResponse>>): Array<ChatResponse> => r.body)
     );
   }
 
-  /** Path part for operation `post()` */
-  static readonly PostPath = '/chat';
+  /** Path part for operation `postChat()` */
+  static readonly PostChatPath = '/chat';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `post()` instead.
+   * To access only the response body, use `postChat()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  post$Response(params: Post$Params, context?: HttpContext): Observable<StrictHttpResponse<ChatResponse>> {
-    return post(this.http, this.rootUrl, params, context);
+  postChat$Response(params: PostChat$Params, context?: HttpContext): Observable<StrictHttpResponse<ChatResponse>> {
+    return postChat(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `post$Response()` instead.
+   * To access the full response (for headers, for example), `postChat$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  post(params: Post$Params, context?: HttpContext): Observable<ChatResponse> {
-    return this.post$Response(params, context).pipe(
+  postChat(params: PostChat$Params, context?: HttpContext): Observable<ChatResponse> {
+    return this.postChat$Response(params, context).pipe(
       map((r: StrictHttpResponse<ChatResponse>): ChatResponse => r.body)
     );
   }

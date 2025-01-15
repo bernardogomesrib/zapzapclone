@@ -26,12 +26,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ChatContoller {
     private final ChatService chatService;
     @PostMapping
-    public ResponseEntity<ChatResponse> post(Authentication authentication, @RequestBody ChatRequest chatRequest) {
+    public ResponseEntity<ChatResponse> postChat(Authentication authentication, @RequestBody ChatRequest chatRequest) {
         ChatResponse entity = chatService.createChat(authentication.getName().toString(), chatRequest.getReceiverId());        
         return ResponseEntity.ok(entity);
     }
     @GetMapping()
-    public ResponseEntity<List<ChatResponse>> getMethodName(Authentication authentication) {
+    public ResponseEntity<List<ChatResponse>> getAllChats(Authentication authentication) {
         return ResponseEntity.ok(chatService.getChatsByReciverId(authentication));
     }
     

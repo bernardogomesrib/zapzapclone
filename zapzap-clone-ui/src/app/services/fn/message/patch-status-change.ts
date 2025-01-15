@@ -9,18 +9,16 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface PostMethodName1$Params {
+export interface PatchStatusChange$Params {
   chatId: string;
-      body?: {
-'file': Blob;
-}
+  status: 'SENT' | 'RECEIVED' | 'SEEN';
 }
 
-export function postMethodName1(http: HttpClient, rootUrl: string, params: PostMethodName1$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, postMethodName1.PATH, 'post');
+export function patchStatusChange(http: HttpClient, rootUrl: string, params: PatchStatusChange$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, patchStatusChange.PATH, 'patch');
   if (params) {
     rb.query('chatId', params.chatId, {});
-    rb.body(params.body, 'multipart/form-data');
+    rb.query('status', params.status, {});
   }
 
   return http.request(
@@ -33,4 +31,4 @@ export function postMethodName1(http: HttpClient, rootUrl: string, params: PostM
   );
 }
 
-postMethodName1.PATH = '/message/upload-media';
+patchStatusChange.PATH = '/message';

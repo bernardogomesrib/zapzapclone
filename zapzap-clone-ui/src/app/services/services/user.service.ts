@@ -11,8 +11,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { getMethodName } from '../fn/user/get-method-name';
-import { GetMethodName$Params } from '../fn/user/get-method-name';
+import { getAllUsersButMe } from '../fn/user/get-all-users-but-me';
+import { GetAllUsersButMe$Params } from '../fn/user/get-all-users-but-me';
 import { UserResponse } from '../models/user-response';
 
 @Injectable({ providedIn: 'root' })
@@ -21,27 +21,27 @@ export class UserService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `getMethodName()` */
-  static readonly GetMethodNamePath = '/user';
+  /** Path part for operation `getAllUsersButMe()` */
+  static readonly GetAllUsersButMePath = '/user';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMethodName()` instead.
+   * To access only the response body, use `getAllUsersButMe()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName$Response(params?: GetMethodName$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
-    return getMethodName(this.http, this.rootUrl, params, context);
+  getAllUsersButMe$Response(params?: GetAllUsersButMe$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserResponse>>> {
+    return getAllUsersButMe(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getMethodName$Response()` instead.
+   * To access the full response (for headers, for example), `getAllUsersButMe$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getMethodName(params?: GetMethodName$Params, context?: HttpContext): Observable<Array<UserResponse>> {
-    return this.getMethodName$Response(params, context).pipe(
+  getAllUsersButMe(params?: GetAllUsersButMe$Params, context?: HttpContext): Observable<Array<UserResponse>> {
+    return this.getAllUsersButMe$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<UserResponse>>): Array<UserResponse> => r.body)
     );
   }
