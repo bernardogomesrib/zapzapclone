@@ -2,7 +2,6 @@ package com.bernardo.zapzapClone.webSocket;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -18,6 +17,8 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -26,17 +27,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSocketConf implements WebSocketMessageBrokerConfigurer {
 
-
+    
     @Override
     public void registerStompEndpoints(@NonNull StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .setAllowedOrigins("*")
                 .withSockJS();
-    }
-
-    @Override
-    public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new AuthenticationPrincipalArgumentResolver());
     }
 
     @Override
@@ -47,8 +43,12 @@ public class WebSocketConf implements WebSocketMessageBrokerConfigurer {
     }
 
     @Override
+    public void addArgumentResolvers(@NonNull List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(new AuthenticationPrincipalArgumentResolver());
+    }
+
+    @Override
     public boolean configureMessageConverters(@NonNull List<MessageConverter> messageConverters) {
-        /* messageConverters.add(new MappingJackson2MessageConverter()); */
         DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
         resolver.setDefaultMimeType(MediaType.APPLICATION_JSON);
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

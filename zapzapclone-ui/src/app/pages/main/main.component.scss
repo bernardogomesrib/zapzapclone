@@ -1,0 +1,84 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #dbd8d4;
+  position: relative;
+}
+
+.background-green {
+  width: 100%;
+  min-height: 126.75px;
+  background-color: #00a884;
+}
+
+.caixa {
+  width: 83.6820084vw;
+  height: 96.2vh;
+  background-color: #f0f2f5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+#caixaLateral {
+  width: 4%;
+  display: flex;
+  flex-direction: column;
+}
+#chats {
+  width: 29.9375%;
+  background-color: #ffff;
+}
+#mensagens {
+  flex-grow: 1;
+  background-color: blue;
+}
+#parteSuperior,
+#parteInferior {
+  display: flex;
+  flex-wrap: wrap;
+  height: 50%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#parteSuperior {
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap:10px;
+}
+#parteInferior {
+  justify-content: center;
+  align-items: flex-end;
+  align-content: flex-end;
+}
+.encaixotado {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+}
+#icone-ia{
+  width: 20px;
+  height: 20px;
+}
+.offline-status{
+
+}
+.online-status{
+  background-color: #00a884;
+  min-width: 10px;
+  max-width: 10px;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

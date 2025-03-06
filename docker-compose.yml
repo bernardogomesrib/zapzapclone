@@ -9,6 +9,9 @@ services:
       POSTGRES_DB: postgres
     volumes:
       - ./data:/var/lib/postgresql/data
+      - ./scripts/entrypointtwo.sh:/docker-entrypoint-initdb.d/entrypointtwo.sh
+    entrypoint: ["/bin/bash", "/docker-entrypoint-initdb.d/entrypointtwo.sh"]
+    command: ["postgres"]
     networks:
       - zapzapClone
     restart: always
@@ -22,7 +25,7 @@ services:
     networks:
       - zapzapClone
     restart: always
-    command: 
+    command:
       - "start-dev"
 networks:
   zapzapClone:

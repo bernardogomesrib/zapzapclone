@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+//TODO: ADD EMOJIS
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.gray-background {
+  background-color: #f0f2f5;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+app-root,
+app-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+.user-img{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  >img{
+    width: 100%;
+  };
+}
