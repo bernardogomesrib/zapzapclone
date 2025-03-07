@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" (keydown)="escape($event)">
   <div class="background-green"></div>
   <div class="caixa">
     <div id="caixaLateral">
@@ -6,7 +6,7 @@
         <div class="encaixotado">
           <i class="fa-solid fa-message cursor-pointer"></i>
         </div>
-        <div class="encaixotado">
+        <div class="encaixotado" (click)="printChats()">
           <i class="fa-solid fa-hashtag cursor-pointer"></i>
         </div>
         <div class="encaixotado">
@@ -35,30 +35,174 @@
       ></app-chat-list>
     </div>
     <div id="mensagens">
-      @if(selectedChat.messages && selectedChat.messages.length>0){
-      <div class="sticky-top gray-background p-2">
+      @if(selectedChat.id){
+      <div class="sticky-top gray-background p-2 flex-row d-flex">
         <div class="user-img">
           <img src="user.png" alt="imagem de usuario" />
         </div>
-        @if(selectedChat){
-        <div class="d-flex flex-column">
-          <span>{{ selectedChat.chatName }}</span>
-          <div class="d-flex gap-1 align-items-center">
-            @if(selectedChat.reciverOnline){
-            <small class="online-status"></small>
-            <small class="text-secondary">Online</small>
-            }@else{
-            <small class="offline-status"></small>
-            <small class="text-secondary"
-              >Ultima vez visto&nbsp;{{
-                selectedChat.lastMessageTime | date : "dd.MM.yyyy HH:mm"
-              }}</small
-            >
-            }
+        <div class="d-flex gap-2">
+          <div class="d-flex flex-column">
+            <span>{{ selectedChat.chatName }}</span>
+            <div class="d-flex gap-1 align-items-center">
+              @if(selectedChat.reciverOnline){
+              <small class="online-status"></small>
+              <small class="text-secondary">Online</small>
+              }@else{
+              <small class="offline-status"></small>
+              <small class="text-secondary">{{ getUltimaVesVisto() }}</small>
+              }
+            </div>
           </div>
         </div>
-        }
       </div>
+      <div id="scrollableDiv" class="bg-chat p-3 overflow-y-scroll">
+        @for (message of selectedChat.messages; track message) {
+        @if(messageIsMine(message)){
+        <div class="message-box self">
+          <div class="d-flex flex-column">
+            @if(message.type==='TEXT'){
+            <span>{{ message.content }}</span>
+            }@else if(message.mediaFilePath&& message.type){
+            @if(message.type==='IMAGE'){
+            <img
+              src="{{ message.mediaFilePath }}"
+              class="cursor-pointer"
+              alt="imagem"
+            />
+            } @if(message.type==='AUDIO'){
+            <audio controls>
+              <source src="{{ message.mediaFilePath }}" type="audio/mpeg" />
+            </audio>
+            } @if(message.type==='VIDEO'){
+            <video controls>
+              <source src="{{ message.mediaFilePath }}" type="video/mp4" />
+            </video>
+            } @if(message.type==='DOCUMENT'){
+            <a href="{{ message.mediaFilePath }}" download>Download</a>
+            } }
+            <div class="d-flex flex-row gap-2 justify-content-end">
+              <small class="text-black-50">{{
+                message.createdAt | date : "HH:mm"
+              }}</small>
+              @if(message.state==='SENT'){
+              <span><i class="fas fa-check"></i></span>
+              }@else if(message.state==='RECEIVED'){
+              <span><i class="fas fa-check-double"></i></span>
+              }@else{
+              <span><i class="fas fa-check-double read"></i></span>
+              }
+            </div>
+          </div>
+        </div>
+        }@else {
+        <div class="message-box friend">
+          <div class="d-flex flex-column">
+            @if(message.type==='TEXT'){
+            <span>{{ message.content }}</span>
+            }@else if(message.mediaFilePath&& message.type){
+            @if(message.type==='IMAGE'){
+            <img
+              src="{{ message.mediaFilePath }}"
+              class="cursor-pointer"
+              alt="imagem"
+            />
+            } @if(message.type==='AUDIO'){
+            <audio controls>
+              <source src="{{ message.mediaFilePath }}" type="audio/mpeg" />
+            </audio>
+            } @if(message.type==='VIDEO'){
+            <video controls>
+              <source src="{{ message.mediaFilePath }}" type="video/mp4" />
+            </video>
+            } @if(message.type==='DOCUMENT'){
+            <a href="{{ message.mediaFilePath }}" download>Download</a>
+            } }
+            <div class="d-flex flex-row gap-2">
+
+              @if(message.state==='SENT'){
+              <span><i class="fas fa-check"></i></span>
+              }@else if(message.state==='RECEIVED'){
+              <span><i class="fas fa-check-double"></i></span>
+              }@else{
+              <span><i class="fas fa-check-double read"></i></span>
+              }
+              <small class="text-black-50">{{
+                dataDeMensagem(message)
+              }}</small>
+
+            </div>
+          </div>
+        </div>
+        } }
+      </div>
+      <div class="gray-background p-2 gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i
+            class="fas fa-paperclip cursor-pointer"
+            (click)="inputFile.click()"
+          ></i>
+          <input
+            type="file"
+            [hidden]="true"
+            #inputFile
+            (change)="uploadMedia($event)"
+          />
+          <i
+            class="fa-regular fa-face-smile cursor-pointer"
+            (click)="emojis = !emojis"
+          ></i>
+          @if(emojis){
+          <emoji-mart
+            [set]="'google'"
+            title="escolha o emoji"
+            emoji="smile"
+            class="emojis-panel"
+            (emojiClick)="addEmoji($event)"
+            (keydown)="escape($event)"
+          ></emoji-mart>
+          }
+          <input
+            type="text"
+            class="form-control-sm w-100 p-2"
+            placeholder="Digite uma mensagem"
+            [(ngModel)]="messageContent"
+            (keydown)="keyDown($event)"
+            (click)="onClick()"
+          />
+          @if(messageContent){
+          <i
+            class="fas fa-paper-plane cursor-pointer"
+            (click)="sendMessage()"
+          ></i>
+          }@else {<i
+            class="fas fa-microphone cursor-pointer"
+            (click)="sendMessage()"
+          ></i>}
+        </div>
+      </div>
+      }@else {
+      <div class="sticky-top gray-background p-2 flex-row d-flex">
+        <div class="user-img">
+          <!-- <img src="user.png" alt="imagem de usuario" /> -->
+        </div>
+
+        <div class="d-flex gap-2">
+          <div class="d-flex flex-column">
+            <!-- <span>Nome do chat</span> -->
+            <div class="d-flex gap-1 align-items-center">
+              <!-- <small class="online-status"></small> -->
+              <!-- <small class="text-secondary">Online</small> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="notScrollableDiv"
+        class="h-100 bg-chat p-3 d-flex flex-column"
+      >
+        <img width = "300" src="/wa_banner.png" alt="banner" />
+        <h2 class="text-black-50">zap zap clone app</h2>
+    </div>
       }
     </div>
   </div>

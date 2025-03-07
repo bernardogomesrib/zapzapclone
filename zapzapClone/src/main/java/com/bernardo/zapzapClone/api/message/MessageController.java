@@ -1,5 +1,14 @@
 package com.bernardo.zapzapClone.api.message;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,16 +24,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-
 
 
 @RestController
@@ -37,18 +36,18 @@ public class MessageController {
     
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void postMessage(@RequestBody MessageRequest entity,Authentication authentication) {
-        messageService.createMessage(entity, authentication);
+    public MessageResponse postMessage(@RequestBody MessageRequest entity,Authentication authentication) {
+        return messageService.createMessage(entity, authentication);
     }
     @PostMapping(value = "/upload-media", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
-    public void postMessageWithFile(
+    public MessageResponse postMessageWithFile(
         @Parameter()
         @RequestParam("file") MultipartFile file,
         @RequestParam("chatId") String chatId,
         Authentication authentication
         ) {
-        messageService.uploadMediaMessage(chatId, file, authentication);
+        return messageService.uploadMediaMessage(chatId, file, authentication);
     }
     @PatchMapping
     @ResponseStatus(HttpStatus.ACCEPTED)

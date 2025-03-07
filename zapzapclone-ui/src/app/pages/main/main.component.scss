@@ -35,7 +35,11 @@
 }
 #mensagens {
   flex-grow: 1;
-  background-color: blue;
+  background-color: #efeae2;
+  background-image: url("/wa_bg.png");
+  background-size: contain;
+    display: flex;
+  flex-direction: column;
 }
 #parteSuperior,
 #parteInferior {
@@ -69,16 +73,105 @@
   height: 20px;
 }
 .offline-status{
-
-}
-.online-status{
-  background-color: #00a884;
+  background-color: #CACACA;
   min-width: 10px;
   max-width: 10px;
+  height: 10px;
   border-radius: 50%;
   font-size: 0.8em;
   font-weight: 400;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.online-status{
+  background-color: #00a884;
+  min-width: 10px;
+  max-width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  font-size: 0.8em;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#notScrollableDiv{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+#scrollableDiv{
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.message-box{
+  position:relative;
+  display: flex;
+  width: 100%;
+  margin: 5px 0;
+  &.self{
+    >div{
+      position:relative;
+      right: 0;
+      text-align: right;
+      background-color: #d9fdd3;
+      max-width: 65%;
+      padding: 10px 10px 0 10px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+
+    }
+     justify-content: flex-end;
+     &::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -10px;
+      width: 20px;
+      height: 20px;
+      background: linear-gradient(135deg, #d9fdd3 0%,#d9fdd3 0%, transparent 50% transparent);
+     }
+
+  }
+  &.friend{
+      justify-content: flex-start;
+      > div{
+        position: relative;
+        right: 0;
+        text-align: left;
+        background-color: #fff;
+        max-width: 65%;
+        padding: 10px 10px 0 10px;
+        border-radius: 5px;
+      }
+      &::before{
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -10px;
+        width: 20px;
+        height: 20px;
+        background: linear-gradient(225deg, #fff 0%,#fff 0%, transparent 50% transparent);
+      }
+     }
+}
+i{
+  >.read{
+    color: #64c5e8;
+  }
+}
+
+
+.emojis-panel{
+  position:absolute;
+  left: 350px;
+  bottom: 50px;
 }

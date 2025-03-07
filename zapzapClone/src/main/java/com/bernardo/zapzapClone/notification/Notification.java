@@ -20,5 +20,6 @@ public class Notification {
     private String chatName;
     private MessageType messageType;
     private NotificationType notificationType;
+    private Long messageId;
     private byte[] media;
 }

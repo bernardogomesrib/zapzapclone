@@ -44,7 +44,8 @@ public class ContentTypeReturner {
                     mediaType = MessageType.DOCUMENT;
                     break;
                 default:
-                    throw new FileException("Unsupported file type: " + contentType);
+                    mediaType = MessageType.DOCUMENT;
+                    break;
             }
         } else {
             throw new FileException("File type is null");

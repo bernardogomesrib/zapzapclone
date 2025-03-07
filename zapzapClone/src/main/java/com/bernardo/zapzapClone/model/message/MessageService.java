@@ -31,7 +31,7 @@ public class MessageService {
     private final NotificationService notificationService;
 
     @Transactional
-    public Message createMessage(MessageRequest message, Authentication authentication) {
+    public MessageResponse createMessage(MessageRequest message, Authentication authentication) {
         Optional<Chat> chat = chatRepository.findById(message.getChatId());
         if (chat.isEmpty()) {
             throw new EntityNotFoundException("Chat not found");
@@ -39,8 +39,10 @@ public class MessageService {
 
         Chat c = chat.get();
         Message msg = message.build();
+        msg.setSenderId(authentication.getName());
         msg.setChat(chat.get());
         msg.setState(MessageState.SENT);
+        msg = messageRepository.save(msg);
         Notification notification = Notification.builder()
                 .chatId(c.getId())
                 .message(message.getContent())
@@ -49,11 +51,12 @@ public class MessageService {
                 .chatName(c.getChatName(authentication.getName()))
                 .messageType(MessageType.TEXT)
                 .notificationType(NotificationType.MESSAGE)
+                .messageId(msg.getId())
                 .build();
 
         notificationService.sendNotification(message.getReceiverId(), notification);
 
-        return messageRepository.save(msg);
+        return  messageMapper.toMessageResponse(msg);
     }
 
     public List<MessageResponse> getMessagesByChatId(String chatId, Authentication authentication) {
@@ -72,11 +75,10 @@ public class MessageService {
     public void updateMessageState(String chatId, MessageState state, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new EntityNotFoundException("Chat not found"));
         final String reciverId = getReciverId(chat, authentication);
-       
 
         Notification notification = Notification.builder()
                 .chatId(chat.getId())
-
+                
                 .senderId(getSenderId(chat, authentication))
                 .receverId(reciverId)
                 .notificationType(NotificationType.SEEN)
@@ -88,7 +90,7 @@ public class MessageService {
 
     }
 
-    public void uploadMediaMessage(String chatId, MultipartFile file, Authentication authentication) {
+    public MessageResponse uploadMediaMessage(String chatId, MultipartFile file, Authentication authentication) {
         Chat chat = chatRepository.findById(chatId).orElseThrow(() -> new EntityNotFoundException("Chat not found"));
         final String senderId = getSenderId(chat, authentication);
         final String reciverId = getReciverId(chat, authentication);
@@ -105,7 +107,7 @@ public class MessageService {
                 .chat(chat)
                 .build();
 
-        messageRepository.save(message);
+        message = messageRepository.save(message);
         Notification notification = Notification.builder()
                 .chatId(chat.getId())
                 .message(message.getContent())
@@ -118,7 +120,7 @@ public class MessageService {
                 .build();
 
         notificationService.sendNotification(reciverId, notification);
-
+        return  messageMapper.toMessageResponse(message);
     }
 
     public String getSenderId(Chat chat, Authentication authentication) {

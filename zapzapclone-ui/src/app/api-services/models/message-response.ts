@@ -6,7 +6,7 @@ import { Chat } from '../models/chat';
 export interface MessageResponse {
   chat?: Chat;
   content?: string;
-  createdAt?: string;
+  createdAt: string;
   file?: string;
   id?: number;
   receiverId?: string;

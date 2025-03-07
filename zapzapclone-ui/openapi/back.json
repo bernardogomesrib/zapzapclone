@@ -13,9 +13,7 @@
   "paths": {
     "/message": {
       "post": {
-        "tags": [
-          "Message"
-        ],
+        "tags": ["Message"],
         "operationId": "postMessage",
         "requestBody": {
           "content": {
@@ -29,14 +27,19 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
           }
         }
       },
       "patch": {
-        "tags": [
-          "Message"
-        ],
+        "tags": ["Message"],
         "operationId": "patchStatusChange",
         "parameters": [
           {
@@ -53,11 +56,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "SENT",
-                "RECEIVED",
-                "SEEN"
-              ]
+              "enum": ["SENT", "RECEIVED", "SEEN"]
             }
           }
         ],
@@ -70,9 +69,7 @@
     },
     "/message/upload-media": {
       "post": {
-        "tags": [
-          "Message"
-        ],
+        "tags": ["Message"],
         "operationId": "postMessageWithFile",
         "parameters": [
           {
@@ -88,9 +85,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "required": [
-                  "file"
-                ],
+                "required": ["file"],
                 "type": "object",
                 "properties": {
                   "file": {
@@ -104,16 +99,21 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
           }
         }
       }
     },
     "/chat": {
       "get": {
-        "tags": [
-          "Chat"
-        ],
+        "tags": ["Chat"],
         "operationId": "getAllChats",
         "responses": {
           "200": {
@@ -132,9 +132,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Chat"
-        ],
+        "tags": ["Chat"],
         "operationId": "postChat",
         "requestBody": {
           "content": {
@@ -162,9 +160,7 @@
     },
     "/user": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "operationId": "getAllUsersButMe",
         "responses": {
           "200": {
@@ -185,9 +181,7 @@
     },
     "/message/{chatId}": {
       "get": {
-        "tags": [
-          "Message"
-        ],
+        "tags": ["Message"],
         "operationId": "getMessagesByChat",
         "parameters": [
           {
@@ -220,12 +214,7 @@
   "components": {
     "schemas": {
       "MessageRequest": {
-        "required": [
-          "chatId",
-          "content",
-          "receiverId",
-          "type"
-        ],
+        "required": ["chatId", "content", "receiverId", "type"],
         "type": "object",
         "properties": {
           "content": {
@@ -236,26 +225,9 @@
           },
           "type": {
             "type": "string",
-            "enum": [
-              "TEXT",
-              "IMAGE",
-              "AUDIO",
-              "DOCUMENT",
-              "VIDEO"
-            ]
+            "enum": ["TEXT", "IMAGE", "AUDIO", "DOCUMENT", "VIDEO"]
           },
           "chatId": {
-            "type": "string"
-          }
-        }
-      },
-      "ChatRequest": {
-        "required": [
-          "receiverId"
-        ],
-        "type": "object",
-        "properties": {
-          "receiverId": {
             "type": "string"
           }
         }
@@ -288,42 +260,6 @@
           }
         }
       },
-      "ChatResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "messages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Message"
-            }
-          },
-          "chatName": {
-            "type": "string"
-          },
-          "unreadMessagesCount": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "lastMessage": {
-            "type": "string"
-          },
-          "lastMessageTime": {
-            "type": "string"
-          },
-          "senderId": {
-            "type": "string"
-          },
-          "receiverId": {
-            "type": "string"
-          },
-          "reciverOnline": {
-            "type": "boolean"
-          }
-        }
-      },
       "Message": {
         "type": "object",
         "properties": {
@@ -344,21 +280,11 @@
           },
           "state": {
             "type": "string",
-            "enum": [
-              "SENT",
-              "RECEIVED",
-              "SEEN"
-            ]
+            "enum": ["SENT", "RECEIVED", "SEEN"]
           },
           "type": {
             "type": "string",
-            "enum": [
-              "TEXT",
-              "IMAGE",
-              "AUDIO",
-              "DOCUMENT",
-              "VIDEO"
-            ]
+            "enum": ["TEXT", "IMAGE", "AUDIO", "DOCUMENT", "VIDEO"]
           },
           "senderId": {
             "type": "string"
@@ -371,6 +297,47 @@
           },
           "mediaFilePath": {
             "type": "string"
+          }
+        }
+      },
+      "MessageResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "content": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": ["SENT", "RECEIVED", "SEEN"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["TEXT", "IMAGE", "AUDIO", "DOCUMENT", "VIDEO"]
+          },
+          "senderId": {
+            "type": "string"
+          },
+          "receiverId": {
+            "type": "string"
+          },
+          "chat": {
+            "$ref": "#/components/schemas/Chat"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "file": {
+            "type": "string",
+            "format": "byte"
           }
         }
       },
@@ -418,6 +385,57 @@
           }
         }
       },
+      "ChatRequest": {
+        "required": ["receiverId"],
+        "type": "object",
+        "properties": {
+          "receiverId": {
+            "type": "string"
+          }
+        }
+      },
+      "ChatResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Message"
+            }
+          },
+          "chatName": {
+            "type": "string"
+          },
+          "unreadMessagesCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lastMessage": {
+            "type": "string"
+          },
+          "lastMessageTime": {
+            "type": "string"
+          },
+          "senderId": {
+            "type": "string"
+          },
+          "receiverId": {
+            "type": "string"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserResponse"
+            }
+          },
+          "reciverOnline": {
+            "type": "boolean"
+          }
+        }
+      },
       "UserResponse": {
         "type": "object",
         "properties": {
@@ -441,57 +459,6 @@
             "type": "boolean"
           }
         }
-      },
-      "MessageResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "content": {
-            "type": "string"
-          },
-          "state": {
-            "type": "string",
-            "enum": [
-              "SENT",
-              "RECEIVED",
-              "SEEN"
-            ]
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "TEXT",
-              "IMAGE",
-              "AUDIO",
-              "DOCUMENT",
-              "VIDEO"
-            ]
-          },
-          "senderId": {
-            "type": "string"
-          },
-          "receiverId": {
-            "type": "string"
-          },
-          "chat": {
-            "$ref": "#/components/schemas/Chat"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "file": {
-            "type": "string",
-            "format": "byte"
-          }
-        }
       }
     },
     "securitySchemes": {
@@ -504,9 +471,7 @@
           "password": {
             "authorizationUrl": "http://localhost:6969/realms/zapzap/protocol/openid-connect/auth",
             "tokenUrl": "http://localhost:6969/realms/zapzap/protocol/openid-connect/token",
-            "scopes": {
-
-            }
+            "scopes": {}
           }
         }
       },
@@ -520,9 +485,7 @@
           "implicit": {
             "authorizationUrl": "http://localhost:6969/realms/zapzap/protocol/openid-connect/auth",
             "tokenUrl": "http://localhost:6969/realms/zapzap/protocol/openid-connect/token",
-            "scopes": {
-
-            }
+            "scopes": {}
           }
         }
       }

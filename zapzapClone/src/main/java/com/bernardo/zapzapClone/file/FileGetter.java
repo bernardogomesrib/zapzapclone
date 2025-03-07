@@ -17,7 +17,7 @@ public class FileGetter {
     public static byte[] getFile(String path){
         if(path == null || path.isEmpty()|| path.isBlank()){
             return new byte[0];
-        }   
+        }
         try {
             return Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {

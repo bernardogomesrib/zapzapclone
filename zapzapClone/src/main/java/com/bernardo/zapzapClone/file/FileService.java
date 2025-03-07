@@ -25,7 +25,6 @@ public class FileService {
             @NonNull String senderId) {
         final String fileUploadSubPath = "users" + File.separator + senderId;
         return uploadFile(file, fileUploadSubPath);
-
     }
 
     private String uploadFile(MultipartFile file, String fileUploadSubPath) {
@@ -60,10 +59,7 @@ public class FileService {
         if(dotIndex > 0) {
             return originalFilename.substring(dotIndex).toLowerCase();
         }
-
         return null;
-
-        
     }
 
 }

@@ -36,7 +36,7 @@ export class MessageService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postMessage$Response(params: PostMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  postMessage$Response(params: PostMessage$Params, context?: HttpContext): Observable<StrictHttpResponse<MessageResponse>> {
     return postMessage(this.http, this.rootUrl, params, context);
   }
 
@@ -46,9 +46,9 @@ export class MessageService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  postMessage(params: PostMessage$Params, context?: HttpContext): Observable<void> {
+  postMessage(params: PostMessage$Params, context?: HttpContext): Observable<MessageResponse> {
     return this.postMessage$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<MessageResponse>): MessageResponse => r.body)
     );
   }
 
@@ -86,7 +86,7 @@ export class MessageService extends BaseService {
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  postMessageWithFile$Response(params: PostMessageWithFile$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  postMessageWithFile$Response(params: PostMessageWithFile$Params, context?: HttpContext): Observable<StrictHttpResponse<MessageResponse>> {
     return postMessageWithFile(this.http, this.rootUrl, params, context);
   }
 
@@ -96,9 +96,9 @@ export class MessageService extends BaseService {
    *
    * This method sends `multipart/form-data` and handles request body of type `multipart/form-data`.
    */
-  postMessageWithFile(params: PostMessageWithFile$Params, context?: HttpContext): Observable<void> {
+  postMessageWithFile(params: PostMessageWithFile$Params, context?: HttpContext): Observable<MessageResponse> {
     return this.postMessageWithFile$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
+      map((r: StrictHttpResponse<MessageResponse>): MessageResponse => r.body)
     );
   }
 

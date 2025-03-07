@@ -27,7 +27,7 @@
       />
     </div>
     <div class="d-flex gap-2">
-      <span class="badge rounded-pill text-bg-light cursor-pointer">Tudo</span
+      <span class="badge rounded-pill text-bg-light cursor-pointer" (click)="imprimirChats()">Tudo</span
       ><span class="badge rounded-pill text-bg-light cursor-pointer"
         >Não lidas</span
       ><span class="badge rounded-pill text-bg-light cursor-pointer"
@@ -37,7 +37,7 @@
   </div>
 </div>
 <div class="chat-list mt-3">
-  @if(chats().length&&searchNewContact){ @for (chat of chats(); track chat) {
+  @if(chats.length&&!searchNewContact){ @for (chat of chats; track chat) {
   <div
     class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
     (click)="chatClicked(chat)"
@@ -57,7 +57,7 @@
     <div class="d-flex flex-column align-items-end">
       <span class="msg-date"
       [class.unread] =  "chat.unreadMessagesCount && chat.unreadMessagesCount > 0">
-      {{chat.lastMessageTime | date:'dd/MM/yyyy HH:mm'}}
+      {{dataParaString(chat.lastMessageTime)}}
       </span>
       @if(chat.unreadMessagesCount&&chat.unreadMessagesCount>0){
         <small class="unread-message-badge">
@@ -69,7 +69,7 @@
   } }@else if(searchNewContact) {
     @for(contact of contacts; track contact) {
       <div class="d-flex align-items-center justify-content-between border-bottom-gray p-2"
-      (click)="selectContact(contact)">
+      (click)="criarChat(contact)">
         <div class="d-flex gap-2">
           <div class="user-img"><img src="user.png" alt="imagem de usuario" /></div>
           <div class="d-flex flex-column">
