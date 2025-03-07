@@ -82,7 +82,7 @@
             } }
             <div class="d-flex flex-row gap-2 justify-content-end">
               <small class="text-black-50">{{
-                message.createdAt | date : "HH:mm"
+                dataDeMensagem(message)
               }}</small>
               @if(message.state==='SENT'){
               <span><i class="fas fa-check"></i></span>
